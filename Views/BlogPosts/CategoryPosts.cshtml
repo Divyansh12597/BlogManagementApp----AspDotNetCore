@@ -1,0 +1,99 @@
+﻿@model BlogManagementApp.ViewModels.CategoryPostsViewModel
+
+@{
+    ViewBag.Title = "Posts in " + Model.CategoryName;
+}
+
+<div class="container mt-4">
+    <h2 class="mb-4">Posts in @Model.CategoryName</h2>
+
+    @if (Model.Posts == null || !Model.Posts.Any())
+    {
+        <div class="alert alert-warning text-center" role="alert">
+            No posts found in this category.
+        </div>
+    }
+    else
+    {
+        @foreach (var post in Model.Posts)
+        {
+            <div class="card mb-3 shadow-sm">
+                <div class="row g-0">
+                    @if (!string.IsNullOrEmpty(post.FeaturedImage))
+                    {
+                        <div class="col-md-4">
+                            <img src="@post.FeaturedImage" class="img-fluid rounded-start" alt="Featured Image">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">@post.Title</h5>
+                                <p class="card-text">@Html.Raw(post.Body.Length > 300 ? post.Body.Substring(0, 300) + "..." : post.Body)</p>
+                                <p class="card-text">
+                                    <small class="text-muted">By @post.Author.Name on @post.PublishedOn.ToString("MMMM dd, yyyy")</small>
+                                </p>
+                                <a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug })" class="btn btn-primary">
+                                    <i class="bi bi-eye"></i> View More
+                                </a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <div class="card-body">
+                                <h5 class="card-title">@post.Title</h5>
+                                <p class="card-text">@Html.Raw(post.Body.Length > 300 ? post.Body.Substring(0, 300) + "..." : post.Body)</p>
+                                <p class="card-text">
+                                    <small class="text-muted">By @post.Author.Name on @post.PublishedOn.ToString("MMMM dd, yyyy")</small>
+                                </p>
+                                <a href="@Url.Action("Details", "BlogPosts", new { slug = post.Slug })" class="btn btn-primary">
+                                    <i class="bi bi-eye"></i> View More
+                                </a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <!-- Pagination -->
+        @if (Model.TotalPages > 1)
+        {
+            <nav aria-label="Category Posts Pagination">
+                <ul class="pagination justify-content-center">
+                    <!-- First Page -->
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("PostsByCategory", new { id = Model.CategoryId, pageNumber = 1 })" aria-label="First">
+                            <span aria-hidden="true">⏮️</span> First
+                        </a>
+                    </li>
+                    <!-- Previous Page -->
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("PostsByCategory", new { id = Model.CategoryId, pageNumber = Model.CurrentPage - 1 })" aria-label="Previous">
+                            <span aria-hidden="true">⬅️</span> Previous
+                        </a>
+                    </li>
+                    <!-- Current Page -->
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">
+                            @Model.CurrentPage
+                            <span class="visually-hidden">(current)</span>
+                        </span>
+                    </li>
+                    <!-- Next Page -->
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("PostsByCategory", new { id = Model.CategoryId, pageNumber = Model.CurrentPage + 1 })" aria-label="Next">
+                            Next <span aria-hidden="true">➡️</span>
+                        </a>
+                    </li>
+                    <!-- Last Page -->
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="@Url.Action("PostsByCategory", new { id = Model.CategoryId, pageNumber = Model.TotalPages })" aria-label="Last">
+                            Last <span aria-hidden="true">⏭️</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>

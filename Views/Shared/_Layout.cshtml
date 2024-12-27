@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - Blog Management App</title>
+    <meta name="description" content="@ViewBag.MetaDescription" />
+    <meta name="keywords" content="@ViewBag.MetaKeywords" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" /> <!-- Optional: Your custom styles -->
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="@Url.Action("Index", "BlogPosts")">
+                <i class="bi bi-journal-richtext me-2"></i> Blog Management
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <!-- Home menu item -->
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "Index" && ViewContext.RouteData.Values["controller"].ToString() == "BlogPosts" ? "active" : "")" href="@Url.Action("Index", "BlogPosts")">
+                            <i class="bi bi-house-door me-1"></i> Manage Blog
+                        </a>
+                    </li>
+
+                    <!-- Invoke the Categories View Component to display each category as a menu item -->
+                    @await Component.InvokeAsync("Categories")
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-fill container mt-4">
+        @RenderBody()
+    </main>
+
+    <footer class="bg-light text-center text-lg-start mt-auto border-top">
+        <div class="text-center p-3">
+            © @DateTime.Now.Year Blog Management App. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Include CKEditor via CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.3.1/classic/ckeditor.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @RenderSection("Scripts", required: false)
+    @RenderSection("Styles", required: false)
+</body>
+</html>

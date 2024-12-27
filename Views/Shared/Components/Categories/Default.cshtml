@@ -1,0 +1,11 @@
+﻿@* Views/Shared/Components/Categories/Default.cshtml *@
+@model IEnumerable<Category>
+
+@foreach (var category in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link @(ViewContext.RouteData.Values["action"].ToString() == "PostsByCategory" && ViewContext.RouteData.Values["id"].ToString() == category.Id.ToString() ? "active" : "")" href="@Url.Action("PostsByCategory", "BlogPosts", new { id = category.Id })">
+            @category.Name
+        </a>
+    </li>
+}

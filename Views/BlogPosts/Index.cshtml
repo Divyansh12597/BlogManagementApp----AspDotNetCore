@@ -1,0 +1,149 @@
+﻿@model BlogManagementApp.ViewModels.BlogPostsIndexViewModel
+
+@{
+    ViewBag.Title = "Blog Posts";
+}
+
+<div class="container-fluid mt-4">
+    <partial name="_MessagesPartial" />
+
+    <!-- Search and Create Button Row -->
+    <div class="row mb-4">
+        <!-- Search Filter Form -->
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">Filter Blog Posts</h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" asp-action="Index" asp-controller="BlogPosts" class="row g-3">
+                        <div class="col-md-5">
+                            <div class="input-group">
+                                <span class="input-group-text" id="searchTitleLabel">
+                                    <i class="bi bi-search"></i>
+                                </span>
+                                <input type="text" asp-for="SearchTitle" class="form-control" placeholder="Search by Title" aria-label="Search by Title" aria-describedby="searchTitleLabel" />
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <select asp-for="SearchCategoryId" class="form-select" asp-items="ViewBag.Categories" aria-label="Filter by Category">
+                                <option value="0">-- All Categories --</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-grid">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-filter"></i> Filter
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create New Post Button -->
+        <div class="col-lg-4 d-flex align-items-end">
+            <a class="btn btn-success w-100" href="@Url.Action("Create")">
+                <i class="bi bi-plus-circle"></i> Create New Post
+            </a>
+        </div>
+    </div>
+
+    <!-- Blog Posts Table -->
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Available Blog Posts</h5>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Published On</th>
+                            <th scope="col">Views</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Posts != null && Model.Posts.Any())
+                        {
+                            foreach (var post in Model.Posts)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@Url.Action("Details", new { slug = post.Slug })" class="text-decoration-none">
+                                            @post.Title
+                                        </a>
+                                    </td>
+                                    <td>@post.Author?.Name</td>
+                                    <td>@post.PublishedOn.ToLocalTime().ToString("MMMM dd, yyyy HH:mm")</td>
+                                    <td>@post.Views</td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group" aria-label="Actions">
+                                            <a class="btn btn-info btn-sm" href="@Url.Action("Details", new { slug = post.Slug })" title="View">
+                                                <i class="bi bi-eye"></i> View
+                                            </a>
+                                            <a class="btn btn-warning btn-sm" href="@Url.Action("Edit", new { id = post.Id })" title="Edit">
+                                                <i class="bi bi-pencil-square"></i> Edit
+                                            </a>
+                                            <a class="btn btn-danger btn-sm" href="@Url.Action("Delete", new { id = post.Id })" title="Delete">
+                                                <i class="bi bi-trash"></i> Delete
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No blog posts found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    @if (Model.TotalPages > 1)
+    {
+        <nav aria-label="Blog Posts Pagination" class="mt-4">
+            <ul class="pagination justify-content-center">
+                <!-- First Page -->
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = 1, searchTitle = Model.SearchTitle, searchCategoryId = Model.SearchCategoryId })" aria-label="First">
+                        <span aria-hidden="true">⏮️</span> First
+                    </a>
+                </li>
+                <!-- Previous Page -->
+                <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage - 1, searchTitle = Model.SearchTitle, searchCategoryId = Model.SearchCategoryId })" aria-label="Previous">
+                        <span aria-hidden="true">⬅️</span> Previous
+                    </a>
+                </li>
+                <!-- Current Page -->
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">
+                        @Model.CurrentPage
+                        <span class="visually-hidden">(current)</span>
+                    </span>
+                </li>
+                <!-- Next Page -->
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.CurrentPage + 1, searchTitle = Model.SearchTitle, searchCategoryId = Model.SearchCategoryId })" aria-label="Next">
+                        Next <span aria-hidden="true">➡️</span>
+                    </a>
+                </li>
+                <!-- Last Page -->
+                <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { pageNumber = Model.TotalPages, searchTitle = Model.SearchTitle, searchCategoryId = Model.SearchCategoryId })" aria-label="Last">
+                        Last <span aria-hidden="true">⏭️</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    }
+</div>

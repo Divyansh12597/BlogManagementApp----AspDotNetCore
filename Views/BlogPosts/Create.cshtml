@@ -1,0 +1,128 @@
+﻿@model BlogManagementApp.Models.BlogPost
+
+@{
+    ViewBag.Title = "Create Blog Post";
+}
+
+<div class="container my-5">
+    <h1 class="mb-4">Create Blog Post</h1>
+
+    <form asp-action="Create" enctype="multipart/form-data" method="post" novalidate>
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Title Field -->
+                <div class="mb-4">
+                    <label asp-for="Title" class="form-label">Title</label>
+                    <input asp-for="Title" class="form-control" placeholder="Enter the blog post title" />
+                    <div class="form-text">Provide a clear and concise title for your blog post.</div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <!-- Content Field -->
+                <div class="mb-4">
+                    <label asp-for="Body" class="form-label">Content</label>
+                    <textarea asp-for="Body" class="form-control" id="editor" rows="10" placeholder="Write your content here..."></textarea>
+                    <div class="form-text">Use the editor to format your blog post content.</div>
+                    <span asp-validation-for="Body" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Featured Image Field -->
+                <div class="mb-4">
+                    <label asp-for="FeaturedImage" class="form-label">Featured Image</label>
+                    <input asp-for="FeaturedImage" class="form-control" type="file" accept="image/*" />
+                    <div class="form-text">Upload a high-resolution image to represent your blog post.</div>
+                    <span asp-validation-for="FeaturedImage" class="text-danger"></span>
+                </div>
+
+                <!-- Category Field -->
+                <div class="mb-4">
+                    <label asp-for="CategoryId" class="form-label">Category</label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="@(new SelectList(ViewBag.Categories, "Id", "Name"))">
+                        <option value="">-- Select Category --</option>
+                    </select>
+                    <div class="form-text">Select the category that best fits your blog post.</div>
+                    <span asp-validation-for="CategoryId" class="text-danger"></span>
+                </div>
+
+                <!-- Author Field -->
+                <div class="mb-4">
+                    <label asp-for="AuthorId" class="form-label">Author</label>
+                    <select asp-for="AuthorId" class="form-select" asp-items="@(new SelectList(ViewBag.Authors, "Id", "Name"))">
+                        <option value="">-- Select Author --</option>
+                    </select>
+                    <div class="form-text">Choose the author who is writing this blog post.</div>
+                    <span asp-validation-for="AuthorId" class="text-danger"></span>
+                </div>
+
+                <!-- Slug Field -->
+                <div class="mb-4">
+                    <label asp-for="Slug" class="form-label">Slug</label>
+                    <input asp-for="Slug" class="form-control" placeholder="e.g., my-blog-post" />
+                    <div class="form-text">A URL-friendly version of the title. It should be unique and lowercase.</div>
+                    <span asp-validation-for="Slug" class="text-danger"></span>
+                </div>
+
+                <!-- Meta Title Field -->
+                <div class="mb-4">
+                    <label asp-for="MetaTitle" class="form-label">Meta Title</label>
+                    <input asp-for="MetaTitle" class="form-control" placeholder="SEO title" />
+                    <div class="form-text">Provide a concise SEO title for better search engine visibility.</div>
+                    <span asp-validation-for="MetaTitle" class="text-danger"></span>
+                </div>
+
+                <!-- Meta Description Field -->
+                <div class="mb-4">
+                    <label asp-for="MetaDescription" class="form-label">Meta Description</label>
+                    <input asp-for="MetaDescription" class="form-control" placeholder="SEO description" />
+                    <div class="form-text">Write a brief description of the blog post for search engines.</div>
+                    <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                </div>
+
+                <!-- Meta Keywords Field -->
+                <div class="mb-4">
+                    <label asp-for="MetaKeywords" class="form-label">Meta Keywords</label>
+                    <input asp-for="MetaKeywords" class="form-control" placeholder="keyword1, keyword2" />
+                    <div class="form-text">Enter relevant keywords separated by commas to improve SEO.</div>
+                    <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-success me-2">
+                <i class="bi bi-save"></i> Create
+            </button>
+            <a asp-action="Index" class="btn btn-secondary">
+                <i class="bi bi-x-circle"></i> Cancel
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Styles {
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 400px; /* Minimum height */
+            overflow-y: auto; /* Adds scrollbar if content exceeds max-height */
+        }
+    </style>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                ckfinder: {
+                    uploadUrl: '/file/upload'
+                }
+            })
+            .catch(error => {
+                // Logs any errors during initialization
+                console.error(error);
+            });
+    </script>
+}
