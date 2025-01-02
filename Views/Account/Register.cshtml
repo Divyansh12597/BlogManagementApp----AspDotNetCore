@@ -1,0 +1,55 @@
+﻿@model User;
+
+@{
+    ViewData["Title"] = "Register";
+}
+<h2>Register Here</h2>
+
+<form asp-action="Register" method="post">
+    <div>
+        <label>Username</label>
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName" style="color:red">
+            @{
+                if (TempData["Uservalidation"] != null)
+                {
+                    @TempData["Uservalidation"]
+                }
+            }
+        </span>
+
+
+    </div>
+    <div>
+        <label>Email</label>
+        <input asp-for="EmailId" />
+        <span asp-validation-for="EmailId" style="color:red"></span>
+    </div>
+    <div>
+        <label>Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" style="color:red"></span>
+    </div>
+    <div>
+        <label>Confirm Password</label>
+        <input asp-for="CPassword" />
+        <span asp-validation-for="CPassword" style="color:red">
+            @{
+                if (TempData["Passwordvalidation"] != null)
+                {
+                    @TempData["Passwordvalidation"]
+                }
+            }
+        </span>
+    </div>
+
+    <div>
+        <button type="submit">Register</button>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div style="color: red">@ViewBag.Error</div>
+    }
+
+</form>
