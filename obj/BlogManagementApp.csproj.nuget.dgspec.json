@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DI20358238\\OneDrive - Wipro\\Documents\\BlogManagementApp-BKP\\BlogManagementApp\\BlogManagementApp\\BlogManagementApp.csproj": {}
+    "C:\\Users\\DI20358238\\source\\repos\\GitClone\\Blog\\BlogManagementApp----AspDotNetCore\\BlogManagementApp.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DI20358238\\OneDrive - Wipro\\Documents\\BlogManagementApp-BKP\\BlogManagementApp\\BlogManagementApp\\BlogManagementApp.csproj": {
+    "C:\\Users\\DI20358238\\source\\repos\\GitClone\\Blog\\BlogManagementApp----AspDotNetCore\\BlogManagementApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DI20358238\\OneDrive - Wipro\\Documents\\BlogManagementApp-BKP\\BlogManagementApp\\BlogManagementApp\\BlogManagementApp.csproj",
+        "projectUniqueName": "C:\\Users\\DI20358238\\source\\repos\\GitClone\\Blog\\BlogManagementApp----AspDotNetCore\\BlogManagementApp.csproj",
         "projectName": "BlogManagementApp",
-        "projectPath": "C:\\Users\\DI20358238\\OneDrive - Wipro\\Documents\\BlogManagementApp-BKP\\BlogManagementApp\\BlogManagementApp\\BlogManagementApp.csproj",
+        "projectPath": "C:\\Users\\DI20358238\\source\\repos\\GitClone\\Blog\\BlogManagementApp----AspDotNetCore\\BlogManagementApp.csproj",
         "packagesPath": "C:\\Users\\DI20358238\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DI20358238\\OneDrive - Wipro\\Documents\\BlogManagementApp-BKP\\BlogManagementApp\\BlogManagementApp\\obj\\",
+        "outputPath": "C:\\Users\\DI20358238\\source\\repos\\GitClone\\Blog\\BlogManagementApp----AspDotNetCore\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DI20358238\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,6 +46,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[8.0.8, )"
